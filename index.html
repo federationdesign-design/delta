@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Delta</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="page-shell">
+    <section class="hero" aria-label="Delta video navigation">
+      <video id="heroVideo" class="hero-video" controls playsinline preload="metadata" poster="assets/poster.png">
+        <!-- Replace this src with your final video file. Example: assets/delta-video.mp4 -->
+        <source src="assets/delta-video.mp4" type="video/mp4" />
+      </video>
+
+      <div class="overlay"></div>
+
+      <header class="site-header">
+        <a class="brand" href="#" data-video-jump="home" aria-label="Delta home">
+          <img src="assets/logo.png" alt="Delta" />
+        </a>
+
+        <nav class="menu" aria-label="Main menu">
+          <a href="#home" data-video-jump="home" class="is-active">Home</a>
+          <a href="#about-us" data-video-jump="about-us">About Us</a>
+          <a href="#our-services" data-video-jump="our-services">Our Services</a>
+          <a href="#contact-us" data-video-jump="contact-us">Contact Us</a>
+        </nav>
+      </header>
+
+      <div class="hero-copy">
+        <p class="eyebrow">Riverfront • Architecture • Lifestyle</p>
+        <h1>Explore Delta by timeline</h1>
+        <p>Use the menu to jump the video to the correct chapter.</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
