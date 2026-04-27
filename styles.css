@@ -1,0 +1,138 @@
+:root {
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.74);
+  --line: rgba(255, 255, 255, 0.2);
+  --panel: rgba(0, 0, 0, 0.35);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: #111;
+  color: var(--text);
+}
+
+.page-shell {
+  min-height: 100vh;
+  background: #000;
+}
+
+.hero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -2;
+  background: #000;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.50), rgba(0,0,0,.08) 40%, rgba(0,0,0,.72));
+  z-index: -1;
+}
+
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 22px clamp(18px, 5vw, 64px);
+  background: linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,0));
+}
+
+.brand img {
+  display: block;
+  width: clamp(82px, 10vw, 132px);
+  height: auto;
+}
+
+.menu {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 3vw, 36px);
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--panel);
+  backdrop-filter: blur(14px);
+}
+
+.menu a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: clamp(12px, 1.35vw, 15px);
+  letter-spacing: .02em;
+  transition: color .2s ease, opacity .2s ease;
+  white-space: nowrap;
+}
+
+.menu a:hover,
+.menu a.is-active {
+  color: var(--text);
+}
+
+.hero-copy {
+  position: absolute;
+  left: clamp(20px, 7vw, 96px);
+  bottom: clamp(44px, 10vw, 120px);
+  max-width: 760px;
+}
+
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: .16em;
+  font-size: 12px;
+}
+
+.hero-copy h1 {
+  margin: 0;
+  font-size: clamp(44px, 9vw, 118px);
+  line-height: .9;
+  letter-spacing: -.06em;
+}
+
+.hero-copy .hero-desc {
+  max-width: 520px;
+  margin: 22px 0 0;
+  color: var(--muted);
+  font-size: clamp(16px, 2vw, 22px);
+  line-height: 1.45;
+}
+
+@media (max-width: 760px) {
+  .site-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .menu {
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .menu::-webkit-scrollbar {
+    display: none; /* Chrome/Safari */
+  }
+}
