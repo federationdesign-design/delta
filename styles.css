@@ -58,6 +58,7 @@ html, body {
   background: linear-gradient(180deg, rgba(0,0,0,.38), rgba(0,0,0,0));
 }
 
+.brand svg,
 .brand img {
   display: block;
   width: clamp(82px, 10vw, 132px);

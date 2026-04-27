@@ -1,37 +1,68 @@
-const video = document.getElementById("heroVideo");
+(function () {
+  "use strict";
 
-const timestamps = {
-  "home": 0,           // 0:00
-  "about-us": 240,    // 4:00
-  "our-services": 360, // 6:00
-  "contact-us": 540   // 9:00
-};
+  var video = document.getElementById("heroVideo");
 
-function jumpToChapter(chapter) {
-  if (!video || !(chapter in timestamps)) return;
+  var chapters = {
+    "home":         0,    // 0:00
+    "about-us":     240,  // 4:00
+    "our-services": 360,  // 6:00
+    "contact-us":   540   // 9:00
+  };
 
-  video.currentTime = timestamps[chapter];
+  // ── Video setup ──────────────────────────────────────────────────────────────
+  // The video starts muted+autoplay (required by all modern browsers).
+  // On the first menu click we unmute; if the browser still blocks sound
+  // we silently fall back to muted so playback always works.
 
-  // Unmute on first user interaction (autoplay requires muted, but clicks are real gestures)
-  video.muted = false;
+  function playVideo() {
+    if (!video) return;
+    var p = video.play();
+    if (p && typeof p.catch === "function") {
+      p.catch(function () {
+        // Autoplay blocked even when muted — try once more after a tick
+        setTimeout(function () { video.play(); }, 100);
+      });
+    }
+  }
 
-  const playAttempt = video.play();
-  if (playAttempt && typeof playAttempt.catch === "function") {
-    playAttempt.catch(() => {
-      // If unmuted play is blocked, fall back to muted
-      video.muted = true;
-      video.play();
+  // Kick off autoplay as soon as the DOM is ready
+  if (video) {
+    video.muted = true;
+    playVideo();
+  }
+
+  // ── Chapter jumping ───────────────────────────────────────────────────────────
+  function jumpTo(chapter) {
+    if (!video) return;
+    if (!(chapter in chapters)) return;
+
+    // Seek
+    video.currentTime = chapters[chapter];
+
+    // Try to unmute on real user gesture
+    video.muted = false;
+    var p = video.play();
+    if (p && typeof p.catch === "function") {
+      p.catch(function () {
+        // Browser still blocking unmuted play — keep muted and continue
+        video.muted = true;
+        video.play();
+      });
+    }
+
+    // Update active state on all nav links
+    document.querySelectorAll("[data-chapter]").forEach(function (el) {
+      el.classList.toggle("is-active", el.dataset.chapter === chapter);
     });
   }
 
-  document.querySelectorAll("[data-video-jump]").forEach(link => {
-    link.classList.toggle("is-active", link.dataset.videoJump === chapter);
+  // ── Event listeners ───────────────────────────────────────────────────────────
+  document.querySelectorAll("[data-chapter]").forEach(function (el) {
+    el.addEventListener("click", function (e) {
+      e.preventDefault();
+      jumpTo(el.dataset.chapter);
+    });
   });
-}
 
-document.querySelectorAll("[data-video-jump]").forEach(link => {
-  link.addEventListener("click", event => {
-    event.preventDefault();
-    jumpToChapter(link.dataset.videoJump);
-  });
-});
+}());
